@@ -1,0 +1,60 @@
+app:
+  logout: ${APP_LOGOUT_URL:https://566ow1752.goho.co/auth/logout/%s}
+  white-list: /auth/*
+supos:
+  supos-web-address: ${SUPOS_WEB_ADDRESS:http://192.168.110.100:8080}
+  app-id: a25a8be1109a3b252a40520d4e4cbcfd
+  app-secret: 5f4c397e86d6e8145ffbc3b8fda16717
+spring:
+  application:
+    name: dev
+  # thymeleaf模板配置
+  thymeleaf:
+    enabled: true  #开启thymeleaf视图解析
+    # 模板文件路径这里要注意一点templates后面一定要加上/
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML5
+    encoding: utf-8
+    cache: false
+  #数据库连接
+  datasource:
+    #数据库名称
+    dbanme: ${SUPOS_DEMO_DB_DBNAME:demo_db}
+    # 数据库用户名
+    username: ${SUPOS_DEMO_DB_USERNAME:root}
+    # 数据库密码
+    password: ${SUPOS_DEMO_DB_PASSWORD:rootkit}
+    # 数据库URL
+    url: jdbc:mariadb://${SUPOS_DEMO_DB_HOST:192.168.110.100}:${SUPOS_DEMO_DB_PORT:31250}/${SUPOS_DEMO_DB_DBNAME:demo_db}?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+    #url: jdbc:mysql://${SUPOS_AHOSPPPLATFORMDB_T:192.168.10.186}:${SUPOS_APPPLATFORMDB_PORT:3306}/${SUPOS_APPPLATFORMDB_DBNAME:appplatformdb}?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+
+    # 数据库驱动
+    driver-class-name: org.mariadb.jdbc.Driver
+    #driver-class-name: com.mysql.jdbc.Driver
+    # 使用Hikari连接池
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      # 最大连接池连接数50
+      maximum-pool-size: 50
+      # 最小连接池连接空闲数 5
+      minimum-idle: 5
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+
+
+#mybatis:
+#  mapper-locations: classpath*:/mapper/*.xml
+#  type-aliases-package: com.supos.appplatform.demo1.entity  # 注意：对应实体类的路径
+logging:
+  file:
+    # 设置日志文件大小
+    max-size: 10MB
+    # 配置日志存放路径,日志文件名为：spring.log
+    path: ./logs/app-platform
+  level:
+    # root日志以WARN级别输出
+    root: info
+    # 此包下所有class以DEBUG级别输出
+    com.supos.email: debug
