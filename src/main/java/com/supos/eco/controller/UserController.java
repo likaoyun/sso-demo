@@ -6,13 +6,18 @@ import cn.hutool.json.JSONUtil;
 import com.bluetron.eco.sdk.api.SuposApi;
 import com.bluetron.eco.sdk.api.SuposApiEnum;
 import com.bluetron.eco.sdk.dto.common.ApiResponse;
+import com.supos.eco.service.UserService;
 import com.supos.eco.vo.PageResult;
 import com.supos.eco.vo.Pagination;
 import com.supos.eco.vo.request.UserSearch;
 import com.supos.eco.vo.response.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author caonuoqi@supos.com
@@ -21,6 +26,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/list")
     public PageResult<User> list(UserSearch param) {
         if (StrUtil.isBlank(param.getCompanyCode())) {
@@ -32,5 +41,10 @@ public class UserController {
         pageResult.setPagination(res.getBean("pagination", Pagination.class));
         pageResult.setList(res.getBeanList("list", User.class));
         return pageResult;
+    }
+
+    @GetMapping("/all")
+    public List<Map<String,Object>> list(){
+        return userService.getAllUser();
     }
 }
