@@ -45,6 +45,20 @@ public class RedirectController {
         return;
     }
 
+    /**
+     * 获取token
+     * @param code
+     * @param logoutUri
+     * @return
+     */
+    @GetMapping("/getToken")
+    public RestResult getToken(String code, String logoutUri) {
+        ApiResponse apiResponse = SuposApi.authService.accessToken(code, logoutUri);
+        JSONObject result = JSONUtil.parseObj(apiResponse.getResponseBody());
+        String userToken = result.getStr("accessToken");
+        return new RestResult(0L, "Success", userToken);
+    }
+
     @GetMapping("accessToken")
     @ResponseBody
     public RestResult accessToken(String code) {

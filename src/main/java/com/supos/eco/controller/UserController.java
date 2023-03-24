@@ -9,12 +9,11 @@ import com.bluetron.eco.sdk.dto.common.ApiResponse;
 import com.supos.eco.service.UserService;
 import com.supos.eco.vo.PageResult;
 import com.supos.eco.vo.Pagination;
+import com.supos.eco.vo.RestResult;
 import com.supos.eco.vo.request.UserSearch;
 import com.supos.eco.vo.response.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -24,7 +23,7 @@ import java.util.Map;
  * @date 2022/7/19
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/auth/user")
 public class UserController {
 
     @Autowired
@@ -43,8 +42,26 @@ public class UserController {
         return pageResult;
     }
 
+    @GetMapping("/test")
+    public RestResult test(){
+        RestResult res=new RestResult();
+        res.setCode(200L);
+        res.setMsg("调用成功！");
+        return res;
+    }
+
     @GetMapping("/all")
     public List<Map<String,Object>> list(){
         return userService.getAllUser();
+    }
+
+    @PostMapping("/save")
+    public Boolean save(@RequestBody User user){
+        userService.saveUser(user);
+        return true;
+    }
+    @PostMapping("/del/{id}")
+    public Boolean delete(@PathVariable("id") String id){
+        return userService.deleteById(id);
     }
 }

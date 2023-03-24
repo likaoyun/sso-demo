@@ -7,4 +7,12 @@ import java.util.Map;
 
 public interface UserService {
     List<Map<String,Object>> getAllUser();
+
+    /**
+     * 新增user数据
+     * @param user
+     */
+    void saveUser(User user);
+
+    Boolean deleteById(String id);
 }
